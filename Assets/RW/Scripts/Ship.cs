@@ -77,6 +77,11 @@ public class Ship : MonoBehaviour
         {
             MoveRight();
         }
+
+        if (numberOfBullets == 0)
+        {
+            StartCoroutine(Reload());
+        }
     }
 
     public void ShootLaser()
@@ -94,16 +99,15 @@ public class Ship : MonoBehaviour
             laserShot.transform.position = shotSpawn.position;
             yield return new WaitForSeconds(0.4f);
             canShoot = true;
+        }       
+    }
 
-            if(numberOfBullets == 0)
-            {
-                canShoot = false;
-                yield return new WaitForSeconds(2.0f);
-                numberOfBullets = startingNumberOfBullets;
-                canShoot = true;
-            }
-        }
-        
+    IEnumerator Reload()
+    {
+        canShoot = false;
+        yield return new WaitForSeconds(2.0f);
+        numberOfBullets = startingNumberOfBullets;
+        canShoot = true;
     }
 
     public GameObject SpawnLaser()

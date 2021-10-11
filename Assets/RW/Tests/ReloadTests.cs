@@ -41,7 +41,7 @@ public class LaserTest
         ship.numberOfBullets = 1;
         ship.startingNumberOfBullets = 1;
         ship.ShootLaser();
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(2.1f);
         Assert.IsTrue(ship.canShoot);
     }
 }
