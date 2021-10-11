@@ -58,6 +58,11 @@ public class Ship : MonoBehaviour
 
     public Text bulletsText;
 
+    private void Start()
+    {
+        bulletsText.text = "Bullets: " + numberOfBullets;
+    }
+
 
     private void Update()
     {
@@ -81,7 +86,7 @@ public class Ship : MonoBehaviour
             MoveRight();
         }
 
-        if (numberOfBullets == 0)
+        if (numberOfBullets == 0 && canShoot)
         {
             StartCoroutine(Reload());
         }
@@ -94,7 +99,7 @@ public class Ship : MonoBehaviour
 
     IEnumerator Shoot()
     {
-        if(numberOfBullets > 0)
+        if(numberOfBullets > 0 && canShoot)
         {
             numberOfBullets--;
             bulletsText.text = "Bullets: " + numberOfBullets;
