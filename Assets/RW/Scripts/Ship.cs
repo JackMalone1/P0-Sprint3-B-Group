@@ -31,6 +31,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Ship : MonoBehaviour
 {
@@ -54,6 +55,8 @@ public class Ship : MonoBehaviour
     public int startingNumberOfBullets = 10;
     [HideInInspector]
     public int numberOfBullets = 10;
+
+    public Text bulletsText;
 
 
     private void Update()
@@ -94,6 +97,7 @@ public class Ship : MonoBehaviour
         if(numberOfBullets > 0)
         {
             numberOfBullets--;
+            bulletsText.text = "Bullets: " + numberOfBullets;
             canShoot = false;
             GameObject laserShot = SpawnLaser();
             laserShot.transform.position = shotSpawn.position;
@@ -105,8 +109,10 @@ public class Ship : MonoBehaviour
     IEnumerator Reload()
     {
         canShoot = false;
+        bulletsText.text = "Reloading";
         yield return new WaitForSeconds(2.0f);
         numberOfBullets = startingNumberOfBullets;
+        bulletsText.text = "Bullets: " + numberOfBullets;
         canShoot = true;
     }
 
