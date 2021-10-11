@@ -36,8 +36,12 @@ public class Laser : MonoBehaviour
 {
     [SerializeField]
     private Spawner spawner;
+    [SerializeField]
+    private GameObject shrapnel;
 
-	void Update ()
+    [SerializeField]
+    private Transform shotSpawn;
+    void Update ()
     {
         transform.Translate(Vector3.back * Time.deltaTime * 5);
         if (transform.position.y > 10)
@@ -54,6 +58,24 @@ public class Laser : MonoBehaviour
             Destroy(gameObject);
             spawner.asteroids.Remove(collision.gameObject);
             Destroy(collision.gameObject);
+            GameObject shrapnelShot = SpawnLaser();
+            shrapnelShot.transform.position = shotSpawn.position;
+            GameObject shrapnelShot2 = SpawnLaser();
+            shrapnelShot2.transform.position = shotSpawn.position;
+            GameObject shrapnelShot3 = SpawnLaser();
+            shrapnelShot3.transform.position = shotSpawn.position;
+            GameObject shrapnelShot4 = SpawnLaser();
+            shrapnelShot4.transform.position = shotSpawn.position;
+           
+
         }
+    }
+    public GameObject SpawnLaser()
+    {
+        
+            GameObject newLaser = Instantiate(shrapnel);
+            newLaser.SetActive(true);
+            return newLaser;
+        
     }
 }
