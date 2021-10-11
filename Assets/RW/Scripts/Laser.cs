@@ -36,6 +36,7 @@ public class Laser : MonoBehaviour
 {
     [SerializeField]
     private Spawner spawner;
+    private bool isSniper = false;
 
 	void Update ()
     {
@@ -50,7 +51,7 @@ public class Laser : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<Asteroid>() != null)
         {
-            if (collision.gameObject.GetComponent<Asteroid>().IsEnhanced())
+            if (collision.gameObject.GetComponent<Asteroid>().IsEnhanced() && !isSniper)
             {
                 collision.gameObject.GetComponent<Asteroid>().TakeDamage();
                 Destroy(gameObject);
@@ -63,5 +64,10 @@ public class Laser : MonoBehaviour
                 Destroy(collision.gameObject);
             }
         }
+    }
+
+    public void SetSniper()
+    {
+        isSniper = true;
     }
 }
