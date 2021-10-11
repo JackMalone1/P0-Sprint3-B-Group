@@ -50,10 +50,18 @@ public class Laser : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<Asteroid>() != null)
         {
-            Game.AsteroidDestroyed();
-            Destroy(gameObject);
-            spawner.asteroids.Remove(collision.gameObject);
-            Destroy(collision.gameObject);
+            if (collision.gameObject.GetComponent<Asteroid>().IsEnhanced())
+            {
+                collision.gameObject.GetComponent<Asteroid>().TakeDamage();
+                Destroy(gameObject);
+            }
+            else
+            {
+                Game.AsteroidDestroyed();
+                Destroy(gameObject);
+                spawner.asteroids.Remove(collision.gameObject);
+                Destroy(collision.gameObject);
+            }
         }
     }
 }

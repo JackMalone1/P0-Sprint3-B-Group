@@ -36,6 +36,7 @@ public class Asteroid : MonoBehaviour
 {
     public float speed = 1;
     private float maxY = -5;
+    private bool isEnhanced = false;
 
     private void Update()
     {
@@ -58,5 +59,33 @@ public class Asteroid : MonoBehaviour
             Game.GameOver();
             Destroy(gameObject);
         }
+    }
+
+    public void Enhance()
+    {
+        int enhanceChance = Random.Range(1, 3);
+        if (enhanceChance == 1) // 50% chance to enhance
+        {
+            isEnhanced = true;
+        }
+    }
+
+    public void EnhanceTest()
+    {
+        int enhanceChance = 1;
+        if (enhanceChance == 1) // 100% chance to enhance. use for testing only
+        {
+            isEnhanced = true;
+        }
+    }
+
+    public bool IsEnhanced()
+    {
+        return isEnhanced;
+    }
+
+    public void TakeDamage()
+    {
+        isEnhanced = false;
     }
 }
