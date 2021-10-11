@@ -50,6 +50,12 @@ public class Ship : MonoBehaviour
     private float maxLeft = -8;
     private float maxRight = 8;
 
+
+    public int startingNumberOfBullets = 10;
+    [HideInInspector]
+    public int numberOfBullets = 10;
+
+
     private void Update()
     {
         if (isDead)
@@ -80,11 +86,24 @@ public class Ship : MonoBehaviour
 
     IEnumerator Shoot()
     {
-        canShoot = false;
-        GameObject laserShot = SpawnLaser();
-        laserShot.transform.position = shotSpawn.position;
-        yield return new WaitForSeconds(0.4f);
-        canShoot = true;
+        if(numberOfBullets > 0)
+        {
+            numberOfBullets--;
+            canShoot = false;
+            GameObject laserShot = SpawnLaser();
+            laserShot.transform.position = shotSpawn.position;
+            yield return new WaitForSeconds(0.4f);
+            canShoot = true;
+
+            if(numberOfBullets == 0)
+            {
+                canShoot = false;
+                //yield return new WaitForSeconds(2.0f);
+                //numberOfBullets = startingNumberOfBullets;
+                //canShoot = true;
+            }
+        }
+        
     }
 
     public GameObject SpawnLaser()
