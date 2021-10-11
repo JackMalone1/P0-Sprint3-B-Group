@@ -98,9 +98,9 @@ public class Ship : MonoBehaviour
             if(numberOfBullets == 0)
             {
                 canShoot = false;
-                yield return new WaitForSeconds(2.0f);
-                numberOfBullets = startingNumberOfBullets;
-                canShoot = true;
+                //yield return new WaitForSeconds(2.0f);
+                //numberOfBullets = startingNumberOfBullets;
+                //canShoot = true;
             }
         }
         
