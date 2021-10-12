@@ -51,6 +51,9 @@ public class Ship : MonoBehaviour
     private float maxLeft = -8;
     private float maxRight = 8;
 
+    private float timeRem = 1.0f;
+    private float shootTime;
+    private bool charging = false;
 
     public int startingNumberOfBullets = 10;
     [HideInInspector]
@@ -63,7 +66,6 @@ public class Ship : MonoBehaviour
         bulletsText.text = "Bullets: " + numberOfBullets;
     }
 
-
     private void Update()
     {
         if (isDead)
@@ -73,7 +75,26 @@ public class Ship : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Space) && canShoot)
         {
-            ShootLaser();
+            if (!charging)
+            {
+                ShootLaser();
+            }
+        }
+
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            shootTime = Time.time;
+            charging = true;
+        }
+        
+        if(Input.GetKeyUp(KeyCode.Space))
+        {
+            if((shootTime + timeRem) <= Time.time)
+            {
+                tripleShot();
+                print("Bitch");
+            }
+            charging = false;
         }
 
         if (Input.GetKey(KeyCode.LeftArrow))
@@ -95,6 +116,11 @@ public class Ship : MonoBehaviour
     public void ShootLaser()
     {
         StartCoroutine("Shoot");
+    }
+
+    public void tripleShot()
+    {
+        StartCoroutine("TripleShot");
     }
 
     IEnumerator Shoot()
@@ -119,6 +145,18 @@ public class Ship : MonoBehaviour
         numberOfBullets = startingNumberOfBullets;
         bulletsText.text = "Bullets: " + numberOfBullets;
         canShoot = true;
+    }
+
+    IEnumerator TripleShot()
+    {
+        int counter = 0;
+        while (counter < 3)
+        {
+            GameObject laserShot = SpawnLaser();
+            laserShot.transform.position = shotSpawn.position;
+            yield return new WaitForSeconds(0.2f);
+            counter++;
+        }
     }
 
     public GameObject SpawnLaser()
