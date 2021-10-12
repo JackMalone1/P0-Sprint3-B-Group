@@ -105,6 +105,13 @@ public class Ship : MonoBehaviour
             bulletsText.text = "Bullets: " + numberOfBullets;
             canShoot = false;
             GameObject laserShot = SpawnLaser();
+
+            // sets the final bullet fired to a sniper bullet
+            if(numberOfBullets == 0)
+            {
+                laserShot.GetComponent<Laser>().SetSniper();
+            }
+
             laserShot.transform.position = shotSpawn.position;
             yield return new WaitForSeconds(0.4f);
             canShoot = true;

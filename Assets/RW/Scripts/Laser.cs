@@ -69,5 +69,6 @@ public class Laser : MonoBehaviour
     public void SetSniper()
     {
         isSniper = true;
+        Debug.Log("Sniper Deployed!");
     }
 }

@@ -1,12 +1,11 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
 namespace Tests
 {
-    public class EnhancedAsteroidTest
+    public class SniperBulletTests
     {
         private Game game;
 
@@ -47,6 +46,22 @@ namespace Tests
             sniperBullet.GetComponent<Laser>().SetSniper();
 
             sniperBullet.transform.position = asteroid.transform.position;
+            yield return new WaitForSeconds(0.1f);
+
+            UnityEngine.Assertions.Assert.IsNull(asteroid);
+        }
+
+        [UnityTest]
+        public IEnumerator SniperBulletSpawn()
+        {
+            GameObject asteroid = game.GetSpawner().SpawnAsteroid();
+            asteroid.GetComponent<Asteroid>().EnhanceTest();
+
+            Ship ship = game.GetShip();
+
+            asteroid.transform.position = new Vector3(ship.transform.position.x, ship.transform.position.y + 5, 0);
+            ship.numberOfBullets = 1;
+            ship.ShootLaser();
             yield return new WaitForSeconds(0.1f);
 
             UnityEngine.Assertions.Assert.IsNull(asteroid);
