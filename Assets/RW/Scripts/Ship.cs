@@ -50,6 +50,10 @@ public class Ship : MonoBehaviour
     private float maxLeft = -8;
     private float maxRight = 8;
 
+    private float timeRem = 1.0f;
+    private float shootTime;
+    private bool charging = false;
+
     private void Update()
     {
         if (isDead)
@@ -59,7 +63,26 @@ public class Ship : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Space) && canShoot)
         {
-            ShootLaser();
+            if (!charging)
+            {
+                ShootLaser();
+            }
+        }
+
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            shootTime = Time.time;
+            charging = true;
+        }
+        
+        if(Input.GetKeyUp(KeyCode.Space))
+        {
+            if((shootTime + timeRem) <= Time.time)
+            {
+                tripleShot();
+                print("Bitch");
+            }
+            charging = false;
         }
 
         if (Input.GetKey(KeyCode.LeftArrow))
@@ -78,6 +101,11 @@ public class Ship : MonoBehaviour
         StartCoroutine("Shoot");
     }
 
+    public void tripleShot()
+    {
+        StartCoroutine("TripleShot");
+    }
+
     IEnumerator Shoot()
     {
         canShoot = false;
@@ -85,6 +113,18 @@ public class Ship : MonoBehaviour
         laserShot.transform.position = shotSpawn.position;
         yield return new WaitForSeconds(0.4f);
         canShoot = true;
+    }
+
+    IEnumerator TripleShot()
+    {
+        int counter = 0;
+        while (counter < 3)
+        {
+            GameObject laserShot = SpawnLaser();
+            laserShot.transform.position = shotSpawn.position;
+            yield return new WaitForSeconds(0.2f);
+            counter++;
+        }
     }
 
     public GameObject SpawnLaser()
